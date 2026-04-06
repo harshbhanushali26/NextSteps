@@ -3,9 +3,6 @@ tavily-python
 tavily
 pydantic>=2.0
 chromadb
-sentence-transformers
-pymupdf
-pymupdf4llm
 requests
 beautifulsoup4
 scikit-learn
@@ -14,4 +11,8 @@ uvicorn[standard]
 python-multipart
 python-dotenv
 numpy
-torch --index-url https://download.pytorch.org/whl/cpu
+pymupdf
+pymupdf4llm
+--find-links https://download.pytorch.org/whl/cpu/torch_stable.html
+torch==2.6.0+cpu
+sentence-transformers
