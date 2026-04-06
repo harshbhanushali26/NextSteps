@@ -30,7 +30,9 @@ app.add_middleware(
         "https://nextsteps.vercel.app",  # production — update with real URL
         "http://127.0.0.1:5501", 
         "http://localhost:5501",
-        "null"
+        "null",
+        "https://nextsteps-kmi2.onrender.com",
+        "https://nextsteps-ai.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

@@ -12,7 +12,7 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-RAG-E8A430?style=flat-square)](https://trychroma.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22C55E?style=flat-square)](LICENSE)
 
-[**Live Demo →**](https://nextsteps.vercel.app) · [**API Docs →**](https://nextsteps.render.app/docs) · [**Local Setup ↓**](#quick-start)
+[**Live Demo →**]("https://nextsteps-ai.vercel.app") · [**API Docs →**](https://nextsteps-kmi2.onrender.com/docs) · [**Local Setup ↓**](#quick-start)
 
 </div>
 
