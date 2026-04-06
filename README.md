@@ -113,7 +113,7 @@ Socratic skill tutor that teaches each gap skill through guided questions, not l
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/harshbhanu26/NextSteps.git
+git clone https://github.com/harshbhanushali26/NextSteps.git
 cd NextSteps
 
 # Option A — uv (recommended)
@@ -261,4 +261,4 @@ Set root directory to `frontend/`. No build step — pure static HTML. After dep
 
 ## License
 
-MIT © [Harsh Bhanu](https://github.com/harshbhanu26)
+MIT © [Harsh Bhanu](https://github.com/harshbhanushali26)
