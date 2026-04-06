@@ -1,0 +1,23 @@
+/* ═══════════════════════════════════════════════
+   NextSteps — Design System
+   Variables · Resets · Body · Backgrounds · Shell
+═══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090f;--s1:#0b0e17;--s2:#10131d;--s3:#151926;--s4:#1a1f2e;
+  --b1:rgba(255,255,255,0.065);--b2:rgba(255,255,255,0.11);
+  --green:#1de980;--gdim:rgba(29,233,128,0.09);
+  --blue:#38b6ff;--bdim:rgba(56,182,255,0.09);
+  --orange:#ff7a3d;--odim:rgba(255,122,61,0.09);
+  --purple:#a78bfa;--pdim:rgba(167,139,250,0.09);
+  --yellow:#fbbf24;--red:#f87171;--teal:#2de8c4;
+  --text:#dde6f5;--muted:#4a5a70;--muted2:#7a8ea8;
+  --font-d:'DM Serif Display',serif;--font-m:'IBM Plex Mono',monospace;--font-s:'Space Grotesk',sans-serif;
+  --sbw:228px;--sbwc:56px;--tbh:58px;--phh:40px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-s)}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.3}
+.bg-grid{position:fixed;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.055) 1px,transparent 1px);background-size:28px 28px;-webkit-mask-image:radial-gradient(ellipse 80% 80% at 70% 50%,black 5%,transparent 78%);mask-image:radial-gradient(ellipse 80% 80% at 70% 50%,black 5%,transparent 78%);pointer-events:none;z-index:0;opacity:0.45}
+.bg-glow{position:fixed;width:640px;height:420px;background:radial-gradient(ellipse,rgba(29,233,128,0.05) 0%,transparent 70%);top:38%;right:8%;pointer-events:none;z-index:0;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.1)}}
+.shell{display:flex;height:100vh;overflow:hidden;position:relative;z-index:1}

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextSteps — Dashboard · Your Career Path !!</title>
+<meta name="description" content="AI-powered career automation dashboard. Upload your CV, match skills, tailor your resume, and practice mock interviews.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="stylesheet" href="css/design-system.css">
+<link rel="stylesheet" href="css/sidebar.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="shell">
+
+<!-- ════ SIDEBAR ════ -->
+<div class="sidebar" id="sb">
+  <div class="sb-tog" onclick="toggleSB()" title="Toggle sidebar (Ctrl+B)">‹</div>
+
+  <!-- scrollable inner section -->
+  <div class="sb-inner">
+    <a href="index.html" class="sb-logo" style="text-decoration:none">
+      <img src="assets/logo.png" style="width:27px;height:27px;border-radius:7px;object-fit:contain;" alt="NS">
+      <div class="sb-logo-info">
+        <div class="sb-name">Next<em>Steps</em></div>
+        <div class="sb-slogan">Your Career Path !!</div>
+      </div>
+    </a>
+    <div class="sb-sec">Workflow</div>
+    <a class="ni active" data-tip="Upload &amp; Parse" onclick="go('upload',this);return false" href="#">
+      <div class="nd"></div><span class="nl">Upload &amp; Parse</span><span class="np2">01</span>
+    </a>
+    <a class="ni nb" data-tip="Skill Match" onclick="go('match',this);return false" href="#">
+      <div class="nd" style="border-color:rgba(56,182,255,0.3)"></div><span class="nl">Skill Match</span><span class="np2">02</span>
+    </a>
+    <a class="ni no" data-tip="Resume &amp; Cover" onclick="go('tailor',this);return false" href="#">
+      <div class="nd" style="border-color:rgba(255,122,61,0.3)"></div><span class="nl">Resume &amp; Cover</span><span class="np2">03</span>
+    </a>
+    <a class="ni np" data-tip="Interview Prep" onclick="go('interview',this);return false" href="#">
+      <div class="nd" style="border-color:rgba(167,139,250,0.3)"></div><span class="nl">Interview Prep</span><span class="np2">04</span>
+    </a>
+    <div class="sb-sep"></div>
+    <div class="sb-sec">Quick Links</div>
+    <a class="ni" data-tip="Back to Home" href="index.html">
+      <svg width="7" height="7" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+      <span class="nl">Home</span>
+    </a>
+    <a class="ni" data-tip="Documentation" href="docs.html">
+      <svg width="7" height="7" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
+      <span class="nl">Docs</span>
+    </a>
+    <div class="sb-sep"></div>
+    <div class="sb-sec">Session</div>
+    <div class="sess-box">
+      <div class="sl-lbl">Active Job</div>
+      <div class="sl-job" id="sess-job">No job loaded</div>
+      <div class="sl-co" id="sess-co"></div>
+      <div class="sl-bar">
+        <div class="sbs" id="sb1"></div><div class="sbs" id="sb2"></div><div class="sbs" id="sb3"></div><div class="sbs" id="sb4"></div>
+      </div>
+    </div>
+    <div class="pp-wrap">
+      <div class="pp-lbl">Progress</div>
+      <div id="pp">
+        <div class="pp-s act" id="pp1"><div class="pp-ic">1</div><span>Upload CV + JD</span></div>
+        <div class="pp-s" id="pp2"><div class="pp-ic">2</div><span>Skill Match</span></div>
+        <div class="pp-s" id="pp3"><div class="pp-ic">3</div><span>Tailor Resume</span></div>
+        <div class="pp-s" id="pp4"><div class="pp-ic">4</div><span>Mock Interview</span></div>
+      </div>
+    </div>
+  </div><!-- /sb-inner -->
+
+  <!-- Start Fresh — always pinned at bottom -->
+  <div class="sb-fresh">
+    <button onclick="startFresh()">↺ Start Fresh</button>
+  </div>
+</div>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topnav">
+    <div class="tn-title" id="tn-t">Upload &amp; Parse</div>
+    <div class="tn-sep"></div>
+    <div class="tn-sub" id="tn-s">Phase 1 — CV + Job Description</div>
+    <div class="tn-tag" id="tn-tag">Awaiting input</div>
+    <div class="tn-right">
+      <div class="api-pill"><div class="api-dot"></div><span>gpt-oss-120b · Groq</span></div>
+      <a class="tn-btn" href="docs.html" title="Documentation">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="tip">Documentation</span>
+      </a>
+      <a class="tn-btn" href="#" onclick="openModal('changelog-modal');return false" title="Changelog">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="tip">Changelog</span>
+      </a>
+      <a class="tn-btn" href="#" onclick="openModal('settings-modal');return false" title="Settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span class="tip">Settings</span>
+      </a>
+      <div class="avatar">HV</div>
+    </div>
+  </div>
+
+  <div class="phase-track">
+    <div class="pt active" id="pt1" onclick="go('upload',document.querySelectorAll('.ni')[0])"><div class="ptn">1</div>Upload</div>
+    <div class="pt-arr">›</div>
+    <div class="pt" id="pt2" onclick="go('match',document.querySelectorAll('.ni')[1])"><div class="ptn">2</div>Skill Match</div>
+    <div class="pt-arr">›</div>
+    <div class="pt" id="pt3" onclick="go('tailor',document.querySelectorAll('.ni')[2])"><div class="ptn">3</div>Resume &amp; Cover</div>
+    <div class="pt-arr">›</div>
+    <div class="pt" id="pt4" onclick="go('interview',document.querySelectorAll('.ni')[3])"><div class="ptn">4</div>Interview</div>
+  </div>
+
+  <div class="content">
+
+  <!-- ████ PAGE 1: UPLOAD ████ -->
+  <div class="page active" id="page-upload">
+    <div class="pg-title">Upload your <em>CV</em> &amp; Job URL</div>
+    <div class="pg-sub">Tavily fetches JD · Groq extracts structured profiles · ~10 seconds</div>
+    <div id="inp-step">
+      <div class="callout cy" style="margin-bottom:14px">
+        ⚠️ <strong>Before you start:</strong>
+        <ul style="margin-top:6px;padding-left:16px;display:flex;flex-direction:column;gap:4px;font-size:0.7rem">
+          <li><strong>Job URL:</strong> LinkedIn, Indeed, Naukri, and Glassdoor block automated fetching. Use <strong>direct company career pages</strong> or <strong>Lever / Greenhouse / Workable</strong> URLs instead — or use <strong>"Paste JD"</strong> below.</li>
+          <li><strong>Resume format:</strong> Multi-column / table-based PDFs often fail text extraction. Use a <strong>single-column, plain-text resume</strong> for best results.</li>
+        </ul>
+      </div>
+      <div class="g2" style="margin-bottom:14px">
+        <div>
+          <div class="clbl">Resume / CV — PDF (single-column format)</div>
+          <div class="uz" id="dz" onclick="document.getElementById('cvi').click()"
+            ondragover="event.preventDefault();this.classList.add('drag')"
+            ondragleave="this.classList.remove('drag')"
+            ondrop="hdrop(event)">
+            <span class="uz-ic" id="uz-ic">📄</span>
+            <div class="uz-ttl" id="uz-ttl">Drag &amp; drop your PDF here</div>
+            <div class="uz-sub2" id="uz-sub">or click to browse · Single-column PDF only</div>
+            <div class="uz-fn" id="uz-fn"></div>
+          </div>
+          <input type="file" id="cvi" accept=".pdf" style="display:none" onchange="onfs(this)">
+        </div>
+        <div>
+          <div class="iw">
+            <label class="ilbl">Job Listing URL <span style="color:var(--muted);font-size:0.6rem">(avoid LinkedIn / Indeed / Naukri)</span></label>
+            <input class="inp" id="jurl" type="url" placeholder="https://jobs.lever.co/company/role-id" oninput="checkUrl(this)">
+            <div id="url-warn" style="display:none;margin-top:5px;font-size:0.62rem;color:var(--yellow);font-family:var(--font-m)">⚠ This site blocks automated fetching. Try a direct company career page URL.</div>
+          </div>
+          <!-- ── Paste JD fallback ── -->
+          <button class="paste-toggle" id="paste-jd-toggle" onclick="togglePasteJD()">▸ Or paste job description manually</button>
+          <div class="paste-area" id="paste-area">
+            <textarea class="paste-ta" id="paste-ta" placeholder="Paste the full job description here...&#10;&#10;Include: job title, company, responsibilities, required skills, nice-to-have skills, location, etc."></textarea>
+            <div style="font-size:0.56rem;color:var(--muted);font-family:var(--font-m);margin-top:4px">Minimum 50 characters · Used when the URL is blocked or unavailable</div>
+          </div>
+          <div class="iw" style="margin-top:8px"><label class="ilbl">Company Name <span style="color:var(--muted);font-size:0.6rem">(optional)</span></label><input class="inp" id="co" placeholder="e.g. Anthropic, Groq..."></div>
+          <div class="iw"><label class="ilbl">Role Title <span style="color:var(--muted);font-size:0.6rem">(optional)</span></label><input class="inp" id="rt" placeholder="e.g. Senior ML Engineer"></div>
+          <button class="btn bg" style="width:100%;justify-content:center;padding:12px;margin-top:2px" onclick="runParse()">⚡ Parse Documents</button>
+        </div>
+      </div>
+      <div class="callout cb"><strong>What happens:</strong> Tavily extracts the full JD from job board URLs. PyMuPDF reads your CV. Groq structures both into Pydantic models. Company context enriched via Tavily — all in ~10 seconds.</div>
+    </div>
+
+    <div id="ld-step" style="display:none">
+      <div class="card">
+        <div class="clbl">Processing your documents</div>
+        <div class="lw">
+          <div class="lb"><div class="lf lfg" id="pb"></div></div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div class="lr" id="l0"><div class="ld"></div><span>Uploading PDF + job URL to API...</span></div>
+            <div class="lr" id="l1"><div class="ld"></div><span>Tavily extract — fetching job description from URL...</span></div>
+            <div class="lr" id="l2"><div class="ld"></div><span>PyMuPDF — reading CV PDF &amp; extracting text...</span></div>
+            <div class="lr" id="l3"><div class="ld"></div><span>Groq — structuring CandidateProfile (JSON extraction)...</span></div>
+            <div class="lr" id="l4"><div class="ld"></div><span>Groq — structuring JobDescription (JSON extraction)...</span></div>
+            <div class="lr" id="l5"><div class="ld"></div><span>Tavily search — company intelligence &amp; culture context...</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="err-step" style="display:none">
+      <div class="callout cr2" id="err-msg">❌ Something went wrong.</div>
+      <button class="btn bgh" onclick="resetParse()">← Try Again</button>
+    </div>
+
+    <div id="res-step" style="display:none">
+      <div class="callout cg">✅ <strong>CandidateProfile</strong> and <strong>JobDescription</strong> extracted. Company intelligence enriched via Tavily.</div>
+      <div id="no-skills-warn" class="no-skills-warn" style="display:none">
+        ⚠️ <strong>No skills detected from your CV.</strong> This usually means your resume uses a multi-column or table-based layout. Please try a <strong>single-column, plain-text PDF</strong>.
+      </div>
+      <div class="g2" style="margin-bottom:12px;margin-top:12px">
+        <div class="card">
+          <div class="clbl">Your Skills — extracted from CV</div>
+          <div class="chips" id="cv-sk"></div>
+          <div style="margin-top:13px;padding-top:11px;border-top:1px solid var(--b1)">
+            <div class="clbl">Experience Snapshot</div>
+            <div style="font-size:0.71rem;color:var(--muted2);line-height:1.8" id="exp-snap"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="clbl">JD Requirements — extracted from listing</div>
+          <div class="chips" id="jd-sk"></div>
+          <div style="margin-top:13px;padding-top:11px;border-top:1px solid var(--b1)">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+              <div class="clbl" style="margin:0">Company Context</div>
+              <div class="tv-badge">⬡ Tavily</div>
+            </div>
+            <div style="font-size:0.7rem;color:var(--muted2);line-height:1.8" id="co-ctx"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:13px">
+        <div class="clbl">Job Session</div>
+        <div class="meta-r">
+          <div class="mi"><div class="mil">Job ID</div><div class="miv mono" id="jid">—</div></div>
+          <div class="mi"><div class="mil">Role</div><div class="miv" id="jrole">—</div></div>
+          <div class="mi"><div class="mil">Company</div><div class="miv gv" id="jco">—</div></div>
+          <div class="mi"><div class="mil">CV Skills</div><div class="miv" id="jskc">—</div></div>
+          <div class="mi"><div class="mil">JD Requirements</div><div class="miv" id="jjdc">—</div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:9px">
+        <button class="btn bg" onclick="goTo('match')">Run Skill Match →</button>
+        <button class="btn bgh" onclick="resetParse()">← Start Over</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ████ PAGE 2: MATCH ████ -->
+  <div class="page" id="page-match">
+    <div class="pg-title">Skill <em>Gap Report</em></div>
+    <div class="pg-sub">ChromaDB + cosine similarity · all-MiniLM-L6-v2 embeddings</div>
+    <div id="me" class="empty" style="display:none">
+      <span class="e-ic">🧮</span>
+      <div class="e-ttl">No CV parsed yet</div>
+      <p class="e-sub">Upload your CV and paste a job URL in Phase 1 first.</p>
+      <button class="btn bg" onclick="goTo('upload')">Go to Upload →</button>
+    </div>
+    <div id="mm">
+      <div class="stat-row">
+        <div class="sc"><div class="sn" id="mc1">—</div><div class="sl">Overall Match</div></div>
+        <div class="sc blue"><div class="sn" id="mc2">—</div><div class="sl">Strong Matches</div></div>
+        <div class="sc yellow"><div class="sn" id="mc3">—</div><div class="sl">Weak Matches</div></div>
+        <div class="sc red"><div class="sn" id="mc4">—</div><div class="sl">Skill Gaps</div></div>
+      </div>
+      <button class="btn bb" id="mbtn" onclick="runMatch()" style="margin-bottom:16px">🧮 Run Skill Matcher</button>
+      <div id="mld" style="display:none">
+        <div class="card">
+          <div class="clbl">Embedding &amp; Matching</div>
+          <div class="lw">
+            <div class="lb"><div class="lf lfb" id="mb"></div></div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div class="lr" id="m0"><div class="ld"></div><span>Sending profile + JD to /match...</span></div>
+              <div class="lr" id="m1"><div class="ld"></div><span>Chunking CV text into ChromaDB...</span></div>
+              <div class="lr" id="m2"><div class="ld"></div><span>Computing cosine similarity per skill...</span></div>
+              <div class="lr" id="m3"><div class="ld"></div><span>Classifying matches / weak / gaps...</span></div>
+              <div class="lr" id="m4"><div class="ld"></div><span>Building SkillGapReport...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="merr" class="callout cr2" style="display:none"></div>
+      <div id="mr" style="display:none">
+        <div id="match-no-skills" class="no-skills-warn" style="display:none;margin-bottom:14px">
+          ⚠️ <strong>Your CV had no detectable skills</strong> — all JD requirements show as gaps. Try re-uploading a single-column resume in Phase 1.
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+          <div class="card" style="width:155px;flex-shrink:0;text-align:center">
+            <div class="clbl">Match Score</div>
+            <svg width="108" height="84" viewBox="0 0 108 84" overflow="visible" style="display:block;margin:0 auto">
+              <defs><linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="rgba(29,233,128,0.28)"/><stop offset="100%" stop-color="#1de980"/></linearGradient></defs>
+              <path class="arc-bg" d="M 13 76 A 41 41 0 1 1 95 76"/>
+              <path class="arc-fg" id="darc" d="M 13 76 A 41 41 0 1 1 95 76"/>
+              <text x="54" y="58" class="anum" id="dscore">0%</text>
+              <text x="54" y="73" class="albl">match</text>
+            </svg>
+          </div>
+          <div class="card" style="flex:1">
+            <div class="clbl">Analysis Summary</div>
+            <p style="font-size:0.73rem;color:var(--muted2);line-height:1.85" id="msum"></p>
+            <div style="margin-top:11px;display:flex;gap:5px;flex-wrap:wrap" id="gap-chips"></div>
+          </div>
+          
+
+        </div>
+        <div id="leverage-block" style="display:none;margin-bottom:14px;padding:14px 18px;
+            background:rgba(29,233,128,0.05);border:1px solid rgba(29,233,128,0.2);
+            border-radius:3px"></div>
+        <div class="tabs" id="mtabs">
+          <div class="tab active" onclick="swTab(this,'t-ma','mtabs')">✅ Strong</div>
+          <div class="tab" onclick="swTab(this,'t-wk','mtabs')">⚠ Weak</div>
+          <div class="tab" onclick="swTab(this,'t-ga','mtabs')">❌ Gaps</div>
+          <div class="tab" onclick="swTab(this,'t-al','mtabs')">All Skills</div>
+        </div>
+        <div class="tp active" id="t-ma"></div>
+        <div class="tp" id="t-wk"></div>
+        <div class="tp" id="t-ga"></div>
+        <div class="tp" id="t-al"></div>
+        <div style="display:flex;gap:9px;margin-top:18px">
+          <button class="btn bo" onclick="goTo('tailor')">Generate Application Package →</button>
+          <button class="btn bgh" onclick="runMatch()">Re-run Analysis</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ████ PAGE 3: TAILOR ████ -->
+  <div class="page" id="page-tailor">
+    <div class="pg-title">Resume <em>Tailoring</em> &amp; Cover Letter</div>
+    <div class="pg-sub">Groq rewrites bullets · Tavily company intelligence · ATS scoring</div>
+    <div id="te" class="empty" style="display:none">
+      <span class="e-ic">✍️</span>
+      <div class="e-ttl">Run skill match first</div>
+      <p class="e-sub">Complete Phases 1 and 2 to unlock the application package.</p>
+      <button class="btn bg" onclick="goTo('match')">Go to Skill Match →</button>
+    </div>
+    <div id="tm">
+      <button class="btn bo" id="tbtn" onclick="runTailor()" style="margin-bottom:16px">✍️ Generate Application Package</button>
+      <div id="tld" style="display:none">
+        <div class="card">
+          <div class="clbl">Generating package</div>
+          <div class="lw">
+            <div class="lb"><div class="lf lfo" id="tb"></div></div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div class="lr" id="t0"><div class="ld"></div><span>Sending gap report + company context to /apply...</span></div>
+              <div class="lr" id="t1"><div class="ld"></div><span>Groq — rewriting resume bullets for this specific role...</span></div>
+              <div class="lr" id="t2"><div class="ld"></div><span>Tavily — injecting live company intelligence...</span></div>
+              <div class="lr" id="t3"><div class="ld"></div><span>Groq — generating cover letter + ATS analysis...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="terr" class="callout cr2" style="display:none"></div>
+      <div id="tr" style="display:none">
+        <div class="callout cg">✅ Package ready — everything editable inline.</div>
+        <div class="card" style="margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+            <div>
+              <div class="clbl" style="margin:0">Resume Bullets — Before vs After</div>
+              <div style="font-size:0.58rem;color:var(--muted);margin-top:3px;font-family:var(--font-m)">Groq rewrites each bullet to target this specific role</div>
+            </div>
+            <div style="display:flex;gap:5px">
+              <button class="cpbtn" id="cpb" onclick="cpBullets(this)">📋 Copy All Tailored</button>
+              <button class="cpbtn" onclick="dlBullets()">⬇ .txt</button>
+            </div>
+          </div>
+          <div id="bulc"></div>
+        </div>
+        <!-- <div class="card" id="ats-panel" style="margin-bottom:12px;display:none">
+          <div class="clbl">ATS Compatibility Score</div>
+          <div class="ats-wrap">
+            <div class="ats-score-row">
+              <div>
+                <div class="ats-num" id="ats-num" style="color:var(--green)">—</div>
+                <div class="ats-verdict" id="ats-verdict">Analysing...</div>
+              </div>
+              <div style="flex:1;font-size:0.68rem;color:var(--muted2);line-height:1.7" id="ats-summary"></div>
+            </div>
+            <div class="ats-cols">
+              <div class="ats-hits"><h5>Keywords matched</h5><div class="chips" id="ats-hits"></div></div>
+              <div class="ats-miss"><h5>Keywords missing</h5><div class="chips" id="ats-miss"></div></div>
+            </div>
+            <div class="ats-impr" id="ats-impr-wrap" style="display:none">
+              <h5>Top improvements</h5>
+              <ul id="ats-impr"></ul>
+            </div>
+          </div>
+        </div> -->
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+            <div>
+              <div class="clbl" style="margin:0">Cover Letter</div>
+              <div style="font-size:0.58rem;color:var(--muted);margin-top:3px;font-family:var(--font-m)">Click to edit · Enriched with Tavily company context</div>
+            </div>
+            <div style="display:flex;gap:5px">
+              <button class="cpbtn" id="cpcl" onclick="cpCL(this)">📋 Copy</button>
+              <button class="cpbtn" onclick="dlCL()">⬇ .txt</button>
+            </div>
+          </div>
+          <div class="cvr" id="cl" contenteditable="true"></div>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:13px">
+          <button class="btn bp" onclick="goTo('interview')">🎤 Launch Interview Simulator →</button>
+          <button class="btn bgh" onclick="runTailor()">↺ Regenerate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ████ PAGE 4: INTERVIEW ████ -->
+  <div class="page" id="page-interview">
+    <div class="pg-title">Mock <em>Interview</em></div>
+    <div class="pg-sub">Phase 4 — real questions from your gap report · RAG-grounded · stop anytime</div>
+
+    <!-- not ready -->
+    <div id="iv-not-ready" style="display:none">
+      <div class="callout cy">⚠️ Complete <strong>Phases 1–3</strong> first (parse CV, run skill match, generate package). Then return here to start your mock interview.</div>
+    </div>
+
+    <!-- start screen -->
+    <div id="iv-start" style="display:none">
+      <div class="start-card">
+        <div class="start-icon">🎤</div>
+        <div class="start-title">Ready to Interview?</div>
+        <p class="start-sub">Questions tailored to your skill gaps and the job description. Each answer is scored on depth, relevance, and clarity — grounded in your CV via RAG. Stop anytime for results.</p>
+        <div class="start-meta">
+          <div class="meta-chip">🎯 <span id="iv-q-count">10 questions</span></div>
+          <div class="meta-chip">⏱ <span>~15 mins max</span></div>
+          <div class="meta-chip">🧠 <span>RAG-grounded</span></div>
+          <div class="meta-chip">📊 <span>3-axis scoring</span></div>
+          <div class="meta-chip">🚪 <span>Exit anytime</span></div>
+        </div>
+        <div style="background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:12px 16px;margin-bottom:22px;text-align:left;font-size:0.68rem;color:var(--muted2)">
+          <div style="color:var(--muted);font-family:var(--font-m);font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Session data</div>
+          <div>Role: <span id="iv-prev-role" style="color:var(--text)">—</span></div>
+          <div style="margin-top:3px">Gap skills: <span id="iv-prev-gaps" style="color:var(--red)">—</span></div>
+        </div>
+        <button class="btn-start" id="iv-btn-start" onclick="ivStart()">▶  Begin Interview</button>
+        <p style="margin-top:12px;font-size:0.62rem;color:var(--muted)">Press "Get Results" at any point to end early.</p>
+      </div>
+    </div>
+
+    <!-- loading -->
+    <div id="iv-loading" style="display:none">
+      <div class="ldr"><div class="ldr-ring"></div><p class="ldr-txt" id="iv-ldr-txt">Generating questions…</p></div>
+    </div>
+
+    <!-- active chat -->
+    <div id="iv-chat-view" style="display:none">
+      <div class="iv-header">
+        <div class="iv-title">Mock Interview</div>
+        <div class="iv-controls">
+          <div class="prog-wrap">
+            <span class="prog-lbl" id="iv-prog-lbl">0 / 10</span>
+            <div class="prog-bar"><div class="prog-fill" id="iv-prog-fill" style="width:0%"></div></div>
+          </div>
+          <button class="btn-early" id="iv-btn-early" onclick="ivEarlyExit()" disabled>Get Results Now →</button>
+        </div>
+      </div>
+      <div class="chat-win" id="iv-chat-win">
+        <div class="typing-ind" id="iv-typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+      </div>
+      <div class="ans-wrap">
+        <textarea class="ans-ta" id="iv-ans-input" placeholder="Type your answer here… be specific, use examples from your experience." oninput="ivUpdCnt()"></textarea>
+        <div class="ans-foot">
+          <span class="ans-cnt" id="iv-ans-cnt">0 chars</span>
+          <div style="display:flex;gap:8px">
+            <button class="bro2" id="iv-btn-skip" onclick="ivSkip()">Skip →</button>
+            <button class="btn-sub" id="iv-btn-sub" onclick="ivSubmitAnswer()">Submit ↵</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- scorecard -->
+    <div id="iv-scorecard" style="display:none">
+      <div class="sc-header2">
+        <span class="sc-icon2">🏁</span>
+        <div class="sc-title2">Interview <span id="iv-sc-label">Complete</span></div>
+        <p class="sc-sub2" id="iv-sc-sub">Here's how you performed</p>
+      </div>
+      <div class="partial-banner" id="iv-partial-banner" style="display:none">
+        ⚡ Partial result — scored on <span id="iv-partial-count">0</span> of <span id="iv-partial-total">10</span> questions.
+      </div>
+      <div class="circ-wrap">
+        <div class="circ">
+          <svg viewBox="0 0 130 130">
+            <circle class="circ-bg2" cx="65" cy="65" r="56"/>
+            <circle class="circ-fill2" id="iv-circ-arc" cx="65" cy="65" r="56"/>
+          </svg>
+          <div class="circ-txt">
+            <div class="circ-pct" id="iv-circ-pct">0%</div>
+            <div class="circ-lbl2">Overall</div>
+          </div>
+        </div>
+      </div>
+      <div class="ax-wrap2">
+        <div class="ax-row"><span class="ax-nm">Relevance</span><div class="ax-tr"><div class="ax-bar" id="iv-ax-rel" style="background:var(--blue)"></div></div><span class="ax-pct" id="iv-pct-rel">0%</span></div>
+        <div class="ax-row"><span class="ax-nm">Depth</span><div class="ax-tr"><div class="ax-bar" id="iv-ax-dep" style="background:var(--purple)"></div></div><span class="ax-pct" id="iv-pct-dep">0%</span></div>
+        <div class="ax-row"><span class="ax-nm">Clarity</span><div class="ax-tr"><div class="ax-bar" id="iv-ax-acc" style="background:var(--green)"></div></div><span class="ax-pct" id="iv-pct-acc">0%</span></div>
+      </div>
+      <div class="si-grid">
+        <div class="si-card str"><div class="si-hdg">✓  Strengths</div><ul class="si-list" id="iv-si-str"></ul></div>
+        <div class="si-card imp"><div class="si-hdg">→  To Improve</div><ul class="si-list" id="iv-si-imp"></ul></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-retry" onclick="ivReset()">↺  Start Another Interview</button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- content -->
+</div><!-- main -->
+</div><!-- shell -->
+
+<!-- ════ MODALS ════ -->
+
+<!-- Changelog Modal -->
+<div class="modal-overlay" id="changelog-modal">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal('changelog-modal')">✕</div>
+    <h2>Changelog</h2>
+    <h3>v1.1.0 — April 2026</h3>
+    <div class="callout cg" style="font-size:0.72rem">
+      <strong>New:</strong> Paste JD fallback for blocked sites · Docs page · Session restore · Enhanced URL validation · Sidebar keyboard shortcut (Ctrl+B) · Modular codebase
+    </div>
+    <h3>v1.0.0 — March 2026</h3>
+    <div class="callout cb" style="font-size:0.72rem">
+      <strong>Initial release:</strong> CV parsing · JD extraction via Tavily · Skill gap analysis · Resume tailoring · Cover letter generation · Mock interview simulator · ATS scoring
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal('settings-modal')">✕</div>
+    <h2>Settings</h2>
+    <h3>API Configuration</h3>
+    <div class="iw">
+      <label class="ilbl">API Base URL</label>
+      <input class="inp" id="settings-api-url" type="url" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn bg" onclick="applySettings()" style="font-size:0.72rem;padding:8px 16px">Save & Apply</button>
+      <button class="btn bgh" onclick="closeModal('settings-modal')" style="font-size:0.72rem;padding:8px 16px">Cancel</button>
+    </div>
+    <h3>Session</h3>
+    <div style="display:flex;gap:8px">
+      <button class="btn bgh" onclick="startFresh();closeModal('settings-modal')" style="font-size:0.68rem;padding:7px 14px;color:var(--red);border-color:rgba(248,113,113,0.3)">↺ Clear All Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SCRIPTS ════ -->
+<script src="js/state.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/phase1-parse.js"></script>
+<script src="js/phase2-match.js"></script>
+<script src="js/phase3-tailor.js"></script>
+<script src="js/phase4-interview.js"></script>
+<script>
+// Apply settings
+function applySettings() {
+  var url = document.getElementById('settings-api-url').value.trim();
+  if (url) {
+    // Note: Can't reassign const, but we update the reference for new calls
+    window._apiOverride = url;
+    closeModal('settings-modal');
+  }
+}
+
+// Init
+initDashboard();
+</script>
+</body>
+</html>

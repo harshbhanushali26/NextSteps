@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextSteps — Documentation</title>
+<meta name="description" content="NextSteps documentation: setup guide, API reference, supported URLs, CV format guide, and architecture overview.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090f;--s1:#0b0e17;--s2:#10131d;--s3:#151926;
+  --b1:rgba(255,255,255,0.065);--b2:rgba(255,255,255,0.11);
+  --green:#1de980;--blue:#38b6ff;--orange:#ff7a3d;--purple:#a78bfa;--yellow:#fbbf24;--red:#f87171;--teal:#2de8c4;
+  --text:#dde6f5;--muted:#4a5a70;--muted2:#7a8ea8;
+  --font-d:'DM Serif Display',serif;--font-m:'IBM Plex Mono',monospace;--font-s:'Space Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-s);line-height:1.65}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.3}
+
+/* NAV */
+.docs-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:60px;background:rgba(7,9,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--b1)}
+.docs-nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.docs-nav-icon{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,rgba(29,233,128,0.18),rgba(29,233,128,0.05));border:1px solid rgba(29,233,128,0.32);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:0.7rem;color:var(--green);font-style:italic}
+.docs-nav-name{font-family:var(--font-d);font-size:1rem;color:var(--text)}
+.docs-nav-name em{font-style:italic;color:var(--green)}
+.docs-nav-links{display:flex;gap:24px;list-style:none}
+.docs-nav-links a{color:var(--muted2);text-decoration:none;font-size:0.78rem;transition:color 0.15s}
+.docs-nav-links a:hover{color:var(--text)}
+.docs-nav-links a.active{color:var(--green)}
+
+/* LAYOUT */
+.docs-shell{display:flex;margin-top:60px;min-height:calc(100vh - 60px)}
+.docs-sidebar{width:220px;flex-shrink:0;background:rgba(11,14,23,0.94);border-right:1px solid var(--b1);padding:20px 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.docs-sidebar::-webkit-scrollbar{width:0}
+.ds-sec{padding:10px 18px 5px;font-size:0.5rem;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;font-family:var(--font-m)}
+.ds-link{display:block;padding:7px 18px;font-size:0.74rem;color:var(--muted2);text-decoration:none;transition:all 0.15s;border-left:2px solid transparent}
+.ds-link:hover{color:var(--text);background:rgba(255,255,255,0.02)}
+.ds-link.active{color:var(--green);border-left-color:var(--green);background:rgba(29,233,128,0.04)}
+
+.docs-content{flex:1;max-width:780px;padding:40px 48px 80px;margin:0 auto}
+
+/* TYPOGRAPHY */
+.docs-content h1{font-family:var(--font-d);font-size:2rem;color:#fff;letter-spacing:-0.5px;margin-bottom:8px}
+.docs-content h1 em{font-style:italic;color:var(--green)}
+.docs-content h2{font-family:var(--font-d);font-size:1.35rem;color:#fff;margin:40px 0 14px;padding-top:20px;border-top:1px solid var(--b1);letter-spacing:-0.3px}
+.docs-content h2:first-of-type{border-top:none;margin-top:24px}
+.docs-content h3{font-size:0.68rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:var(--font-m);margin:24px 0 10px}
+.docs-content p{font-size:0.82rem;color:var(--muted2);line-height:1.85;margin-bottom:14px}
+.docs-content strong{color:var(--text)}
+.docs-content a{color:var(--green);text-decoration:none;border-bottom:1px solid rgba(29,233,128,0.2);transition:border-color 0.15s}
+.docs-content a:hover{border-color:var(--green)}
+
+/* CARDS */
+.doc-card{background:rgba(11,14,23,0.82);border:1px solid var(--b1);border-radius:10px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden}
+.doc-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent)}
+.doc-card h4{font-size:0.78rem;color:var(--text);font-weight:500;margin-bottom:6px}
+.doc-card p{font-size:0.73rem;margin-bottom:0}
+
+/* CODE */
+.doc-code{background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:14px 16px;font-family:var(--font-m);font-size:0.72rem;color:var(--green);line-height:1.8;overflow-x:auto;margin:10px 0 16px;white-space:pre}
+.doc-code .c{color:var(--muted)}
+.doc-code .s{color:var(--blue)}
+
+/* TABLE */
+.doc-table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-size:0.73rem}
+.doc-table th{text-align:left;padding:9px 12px;background:var(--s2);border:1px solid var(--b1);color:var(--muted);font-family:var(--font-m);font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase}
+.doc-table td{padding:9px 12px;border:1px solid var(--b1);color:var(--muted2)}
+.doc-table tr:hover td{background:rgba(255,255,255,0.01)}
+
+/* CHIPS */
+.chip-ok{display:inline-flex;padding:3px 10px;border-radius:14px;font-size:0.6rem;font-family:var(--font-m);background:rgba(29,233,128,0.08);border:1px solid rgba(29,233,128,0.22);color:var(--green)}
+.chip-bad{display:inline-flex;padding:3px 10px;border-radius:14px;font-size:0.6rem;font-family:var(--font-m);background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.22);color:var(--red)}
+.chip-warn{display:inline-flex;padding:3px 10px;border-radius:14px;font-size:0.6rem;font-family:var(--font-m);background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);color:var(--yellow)}
+
+/* CALLOUT */
+.doc-callout{border-radius:8px;padding:12px 15px;font-size:0.73rem;line-height:1.78;border-left:3px solid;margin:12px 0 16px}
+.doc-callout.info{background:rgba(56,182,255,0.05);border-color:var(--blue);color:rgba(56,182,255,0.88)}
+.doc-callout.warn{background:rgba(251,191,36,0.05);border-color:var(--yellow);color:rgba(251,191,36,0.88)}
+.doc-callout.ok{background:rgba(29,233,128,0.05);border-color:var(--green);color:rgba(29,233,128,0.88)}
+
+/* ARCHITECTURE DIAGRAM */
+.arch-box{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:22px;font-family:var(--font-m);font-size:0.63rem;line-height:1.75;color:var(--muted2);overflow-x:auto;white-space:pre;margin:12px 0 20px}
+
+/* STEPS */
+.step-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.step-num{width:28px;height:28px;border-radius:50%;background:rgba(29,233,128,0.1);border:1px solid rgba(29,233,128,0.25);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:0.72rem;color:var(--green);flex-shrink:0}
+.step-body{flex:1}
+.step-body h4{font-size:0.78rem;color:var(--text);margin-bottom:4px}
+.step-body p{font-size:0.73rem;margin-bottom:0}
+
+/* TAG */
+.doc-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:rgba(29,233,128,0.06);border:1px solid rgba(29,233,128,0.2);color:var(--green);font-size:0.58rem;font-family:var(--font-m);margin-bottom:20px}
+.doc-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="docs-nav">
+  <a class="docs-nav-logo" href="index.html">
+    <img src="assets/logo.png" style="width:27px;height:27px;border-radius:7px;object-fit:contain;" alt="NS">
+    <div class="docs-nav-name">Next<em>Steps</em></div>
+  </a>
+  <ul class="docs-nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="docs.html" class="active">Docs</a></li>
+  </ul>
+</nav>
+
+<div class="docs-shell">
+
+<!-- SIDEBAR -->
+<aside class="docs-sidebar">
+  <div class="ds-sec">Getting Started</div>
+  <a class="ds-link active" href="#quick-start" onclick="setActiveLink(this)">Quick Start</a>
+  <a class="ds-link" href="#supported-urls" onclick="setActiveLink(this)">Supported URLs</a>
+  <a class="ds-link" href="#cv-guide" onclick="setActiveLink(this)">CV Format Guide</a>
+  <div class="ds-sec">Reference</div>
+  <a class="ds-link" href="#api-reference" onclick="setActiveLink(this)">API Reference</a>
+  <a class="ds-link" href="#architecture" onclick="setActiveLink(this)">Architecture</a>
+  <a class="ds-link" href="#tech-stack" onclick="setActiveLink(this)">Tech Stack</a>
+  <div class="ds-sec">Guide</div>
+  <a class="ds-link" href="#workflow" onclick="setActiveLink(this)">5-Phase Workflow</a>
+  <a class="ds-link" href="#faq" onclick="setActiveLink(this)">FAQ</a>
+</aside>
+
+<!-- CONTENT -->
+<main class="docs-content">
+  <div class="doc-badge">Documentation · v1.1</div>
+  <h1>Next<em>Steps</em> Documentation</h1>
+  <p>Everything you need to set up, configure, and use NextSteps — the AI career automation agent that handles your entire job application pipeline.</p>
+
+  <!-- QUICK START -->
+  <h2 id="quick-start">Quick Start</h2>
+  <p>Get NextSteps running locally in 3 steps.</p>
+
+  <div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Clone &amp; Install</h4>
+      <p>Requires <strong>Python 3.12+</strong> and <a href="https://docs.astral.sh/uv/">uv</a> package manager.</p>
+    </div>
+  </div>
+  <div class="doc-code"><span class="c"># Clone the repository</span>
+git clone https://github.com/YOUR_USERNAME/NextSteps.git
+cd NextSteps
+
+<span class="c"># Install dependencies</span>
+uv sync</div>
+
+  <div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Set Environment Variables</h4>
+      <p>Create a <strong>.env</strong> file in the project root with your API keys.</p>
+    </div>
+  </div>
+  <div class="doc-code"><span class="c"># .env</span>
+GROQ_API_KEY=<span class="s">your_groq_api_key_here</span>
+TAVILY_API_KEY=<span class="s">your_tavily_api_key_here</span></div>
+  <div class="doc-callout info">
+    <strong>Get your keys:</strong> <a href="https://console.groq.com/" style="color:inherit">Groq Console</a> · <a href="https://app.tavily.com/" style="color:inherit">Tavily Dashboard</a> — both have generous free tiers.
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Run the Server</h4>
+      <p>Start the FastAPI backend and open the frontend.</p>
+    </div>
+  </div>
+  <div class="doc-code"><span class="c"># Start the API server</span>
+python main.py
+
+<span class="c"># Or directly with uvicorn</span>
+uvicorn api.main:app --reload
+
+<span class="c"># Open frontend/dashboard.html in your browser</span>
+<span class="c"># API docs available at http://localhost:8000/docs</span></div>
+
+  <!-- SUPPORTED URLs -->
+  <h2 id="supported-urls">Supported URLs</h2>
+  <p>NextSteps uses <strong>Tavily Extract</strong> to fetch job descriptions from URLs. Some sites block automated access.</p>
+
+  <h3>Works well ✅</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+    <span class="chip-ok">Lever / lever.co</span>
+    <span class="chip-ok">Greenhouse / greenhouse.io</span>
+    <span class="chip-ok">Workable / workable.com</span>
+    <span class="chip-ok">Company career pages</span>
+    <span class="chip-ok">Ashby / ashbyhq.com</span>
+    <span class="chip-ok">BambooHR</span>
+    <span class="chip-ok">SmartRecruiters</span>
+  </div>
+
+  <h3>Blocked ❌</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+    <span class="chip-bad">LinkedIn</span>
+    <span class="chip-bad">Indeed</span>
+    <span class="chip-bad">Naukri</span>
+    <span class="chip-bad">Glassdoor</span>
+    <span class="chip-bad">Monster</span>
+    <span class="chip-bad">Shine</span>
+  </div>
+
+  <div class="doc-callout warn">
+    <strong>For blocked sites:</strong> Use the <strong>"Paste JD manually"</strong> option on the dashboard. Copy the job description text from the website and paste it directly — no URL needed.
+  </div>
+
+  <!-- CV FORMAT GUIDE -->
+  <h2 id="cv-guide">CV Format Guide</h2>
+  <p>NextSteps uses <strong>PyMuPDF</strong> to extract text from your PDF. The format of your resume affects extraction quality.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px">
+    <div class="doc-card" style="border-color:rgba(29,233,128,0.2)">
+      <h4 style="color:var(--green)">✅ Good Format</h4>
+      <p>Single-column layout · Plain text (not images) · Standard fonts · Clear section headers · Bullet points for experience</p>
+    </div>
+    <div class="doc-card" style="border-color:rgba(248,113,113,0.2)">
+      <h4 style="color:var(--red)">❌ Avoid</h4>
+      <p>Multi-column layouts · Table-based designs · Heavy graphics · Text embedded as images · Fancy templates with sidebars</p>
+    </div>
+  </div>
+
+  <!-- API REFERENCE -->
+  <h2 id="api-reference">API Reference</h2>
+  <p>All endpoints are served from <strong>http://localhost:8000</strong>. Interactive API docs at <a href="http://localhost:8000/docs">/docs</a>.</p>
+
+  <table class="doc-table">
+    <thead>
+      <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span style="color:var(--green)">GET</span></td><td>/health</td><td>Service health check</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/parse</td><td>Upload CV (PDF) + job URL → profile + JD + company context</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/match</td><td>Profile + JD → skill gap report</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/apply</td><td>Gap report → tailored bullets + cover letter + ATS score</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/apply/stream</td><td>Streaming cover letter generation (SSE)</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/interview/start</td><td>JD + gap report → interview questions</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/interview/answer</td><td>Score one answer (RAG-grounded)</td></tr>
+      <tr><td><span style="color:var(--blue)">POST</span></td><td>/interview/summary</td><td>All scored answers → session report</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Parse endpoint details</h3>
+  <div class="doc-code"><span class="c"># POST /parse — multipart/form-data</span>
+cv:           PDF file (required, max 10MB)
+job_url:      string  (required — use placeholder if pasting JD)
+raw_jd_text:  string  (optional — raw JD text, skips URL scraping)
+company_name: string  (optional — fallback company name)</div>
+
+  <!-- ARCHITECTURE -->
+  <h2 id="architecture">Architecture</h2>
+  <p>NextSteps is a multi-agent pipeline. Each phase calls specialized agent functions through a FastAPI REST layer.</p>
+
+  <div class="arch-box">┌─────────────────────────────────────────────────────────────┐
+│                      Frontend (HTML/JS)                     │
+│          index.html · dashboard.html · docs.html            │
+└─────────────────────────┬───────────────────────────────────┘
+                          │ REST API
+┌─────────────────────────▼───────────────────────────────────┐
+│                    FastAPI Backend                           │
+│  /parse  /match  /apply  /apply/stream  /interview/*        │
+└─────┬────────┬────────┬────────┬────────┬───────────────────┘
+      │        │        │        │        │
+┌─────▼──┐ ┌───▼───┐ ┌──▼───┐ ┌──▼────┐ ┌▼─────────┐
+│CV Parse│ │JD     │ │Skill │ │Resume │ │Interviewer│
+│ Agent  │ │Scraper│ │Match │ │Tailor │ │  Agent    │
+└────────┘ └───────┘ └──────┘ └───────┘ └──────────┘
+      │        │        │                     │
+      │   ┌────▼──┐  ┌──▼──────────┐   ┌─────▼────┐
+      │   │Tavily │  │  ChromaDB   │   │  RAG     │
+      │   │Search │  │(skills+chunks)   │ Retrieval│
+      │   └───────┘  └─────────────┘   └──────────┘
+      │
+  ┌───▼─────┐   ┌──────────────┐
+  │pymupdf4 │   │SentenceTransf│
+  │  llm    │   │  ormers      │
+  └─────────┘   └──────────────┘</div>
+
+  <!-- TECH STACK -->
+  <h2 id="tech-stack">Tech Stack</h2>
+  <table class="doc-table">
+    <thead>
+      <tr><th>Component</th><th>Technology</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>LLM Inference</td><td><strong>Groq</strong> — gpt-oss-120b, gpt-oss-20b</td></tr>
+      <tr><td>Web Intelligence</td><td><strong>Tavily</strong> — JD extraction + company research</td></tr>
+      <tr><td>Vector Store</td><td><strong>ChromaDB</strong> — persistent, cosine similarity</td></tr>
+      <tr><td>Embeddings</td><td><strong>SentenceTransformers</strong> — all-MiniLM-L6-v2</td></tr>
+      <tr><td>Backend</td><td><strong>FastAPI</strong> + Uvicorn</td></tr>
+      <tr><td>Validation</td><td><strong>Pydantic v2</strong> (extra='forbid')</td></tr>
+      <tr><td>PDF Parsing</td><td><strong>PyMuPDF</strong> / pymupdf4llm</td></tr>
+      <tr><td>Frontend</td><td><strong>Vanilla HTML/CSS/JS</strong></td></tr>
+    </tbody>
+  </table>
+
+  <!-- WORKFLOW -->
+  <h2 id="workflow">5-Phase Workflow</h2>
+
+  <div class="doc-card" style="margin-bottom:10px">
+    <h4>Phase 1 — Parse &amp; Extract</h4>
+    <p>Upload your CV PDF and paste a job URL (or raw text). Tavily fetches the full JD. PyMuPDF reads your CV. Groq structures both into Pydantic models. Company context is enriched via a Tavily search.</p>
+  </div>
+  <div class="doc-card" style="margin-bottom:10px">
+    <h4>Phase 2 — Skill Match</h4>
+    <p>Your skills are embedded into ChromaDB with SentenceTransformers. Cosine similarity is computed for each JD requirement. Skills are classified as <span class="chip-ok" style="font-size:0.55rem">match</span> <span class="chip-warn" style="font-size:0.55rem">weak</span> <span class="chip-bad" style="font-size:0.55rem">gap</span>. An overall match percentage is generated.</p>
+  </div>
+  <div class="doc-card" style="margin-bottom:10px">
+    <h4>Phase 3 — Application Package</h4>
+    <p>Groq rewrites your resume bullets to mirror JD keywords. A company-aware cover letter is generated (with streaming). The ATS compatibility score checks keyword matches and suggests improvements.</p>
+  </div>
+  <div class="doc-card" style="margin-bottom:10px">
+    <h4>Phase 4 — Mock Interview</h4>
+    <p>10 role-specific questions are generated from your gap report. Each answer is scored on 3 axes (relevance, depth, clarity), grounded in your CV via RAG retrieval. Exit anytime for a partial scorecard.</p>
+  </div>
+  <div class="doc-card">
+    <h4>Phase 5 — AI Tutor <span class="chip-warn" style="font-size:0.55rem">coming soon</span></h4>
+    <p>Socratic skill tutor that teaches each gap skill through interactive sessions. Includes a code coach with practice problems and 4-axis code review.</p>
+  </div>
+
+  <!-- FAQ -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  <div class="doc-card" style="margin-bottom:8px">
+    <h4>Why can't I use LinkedIn or Indeed URLs?</h4>
+    <p>These sites actively block automated data extraction with JavaScript rendering, CAPTCHAs, and login walls. Use the <strong>"Paste JD"</strong> feature instead — copy the job description text and paste it directly.</p>
+  </div>
+  <div class="doc-card" style="margin-bottom:8px">
+    <h4>What LLM model is used?</h4>
+    <p>NextSteps uses <strong>gpt-oss-120b</strong> for most tasks (CV parsing, resume tailoring, interview scoring) and <strong>gpt-oss-20b</strong> for JD extraction. Both run on Groq's inference engine.</p>
+  </div>
+  <div class="doc-card" style="margin-bottom:8px">
+    <h4>Is my data stored permanently?</h4>
+    <p>CV data is processed in-memory and written to temp files that are deleted after parsing. ChromaDB stores embeddings locally in the <code style="color:var(--green)">/data</code> directory. No data is sent to external servers beyond Groq and Tavily API calls.</p>
+  </div>
+  <div class="doc-card" style="margin-bottom:8px">
+    <h4>Can I change the API endpoint?</h4>
+    <p>Yes — click the <strong>⚙ Settings</strong> icon in the dashboard navbar to configure a custom API URL (e.g., your Railway deployment).</p>
+  </div>
+  <div class="doc-card">
+    <h4>How do I clear my session?</h4>
+    <p>Click <strong>"↺ Start Fresh"</strong> in the sidebar, or go to <strong>Settings → Clear All Data</strong>. This removes all localStorage data and resets the UI to the initial state.</p>
+  </div>
+
+</main>
+</div>
+
+<script>
+function setActiveLink(el) {
+  document.querySelectorAll('.ds-link').forEach(function(l) { l.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+// Active section on scroll
+const sections = document.querySelectorAll('[id]');
+const links = document.querySelectorAll('.ds-link');
+window.addEventListener('scroll', function() {
+  let cur = '';
+  sections.forEach(function(s) {
+    if (window.scrollY + 100 >= s.offsetTop) cur = s.id;
+  });
+  links.forEach(function(l) {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

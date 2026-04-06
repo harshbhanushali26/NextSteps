@@ -1,0 +1,70 @@
+/* ═══════════════════════════════════════════════
+   NextSteps — Sidebar
+═══════════════════════════════════════════════ */
+.sidebar{
+  width:var(--sbw);flex-shrink:0;
+  background:rgba(11,14,23,0.94);backdrop-filter:blur(20px);
+  border-right:1px solid var(--b1);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;z-index:10;
+  transition:width 0.26s cubic-bezier(0.4,0,0.2,1)
+}
+.sidebar.col{width:var(--sbwc)}
+.sidebar::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background:linear-gradient(180deg,transparent 5%,rgba(29,233,128,0.16) 35%,rgba(29,233,128,0.16) 65%,transparent 95%);pointer-events:none}
+
+/* scrollable inner area — everything except Start Fresh button scrolls */
+.sb-inner{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;min-height:0}
+.sb-inner::-webkit-scrollbar{width:0;background:transparent}
+
+.sb-tog{position:absolute;top:50%;right:-11px;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--s2);border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;transition:all 0.2s,transform 0.26s;font-size:0.6rem;color:var(--muted2);box-shadow:0 2px 8px rgba(0,0,0,0.4)}
+.sb-tog:hover{background:var(--s3);color:var(--text);border-color:var(--b2)}
+.sidebar.col .sb-tog{transform:translateY(-50%) rotate(180deg)}
+.sb-logo{padding:15px 13px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:10px;min-height:58px;text-decoration:none;flex-shrink:0}
+.sb-logo-icon{width:27px;height:27px;border-radius:7px;background:linear-gradient(135deg,rgba(29,233,128,0.18),rgba(29,233,128,0.05));border:1px solid rgba(29,233,128,0.32);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:0.75rem;color:var(--green);flex-shrink:0;font-style:italic}
+.sb-logo-info{overflow:hidden;transition:opacity 0.18s,max-width 0.26s;max-width:160px}
+.sidebar.col .sb-logo-info{opacity:0;max-width:0}
+.sb-name{font-family:var(--font-d);font-size:1.05rem;color:var(--text);letter-spacing:-0.3px;line-height:1;white-space:nowrap}
+.sb-name em{font-style:italic;color:var(--green)}
+.sb-slogan{font-size:0.51rem;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;font-family:var(--font-m);margin-top:2px;white-space:nowrap}
+.sb-sec{padding:12px 13px 5px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;font-family:var(--font-m);white-space:nowrap;font-size:0.51rem;transition:opacity 0.18s}
+.sidebar.col .sb-sec{opacity:0;pointer-events:none}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px 8px 13px;margin:1px 7px;border-radius:7px;cursor:pointer;font-size:0.73rem;color:var(--muted2);transition:all 0.15s;border:1px solid transparent;text-decoration:none;white-space:nowrap;overflow:hidden;position:relative}
+.ni:hover{background:var(--s2);color:var(--text);border-color:var(--b1)}
+.ni.active{background:var(--gdim);border-color:rgba(29,233,128,0.18);color:var(--green)}
+.ni.nb.active{background:var(--bdim);border-color:rgba(56,182,255,0.18);color:var(--blue)}
+.ni.no.active{background:var(--odim);border-color:rgba(255,122,61,0.18);color:var(--orange)}
+.ni.np.active{background:var(--pdim);border-color:rgba(167,139,250,0.18);color:var(--purple)}
+.nd{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--muted);flex-shrink:0;transition:all 0.2s}
+.ni.active .nd{background:var(--green);border-color:var(--green);box-shadow:0 0 7px var(--green)}
+.ni.nb.active .nd{background:var(--blue);border-color:var(--blue);box-shadow:0 0 7px var(--blue)}
+.ni.no.active .nd{background:var(--orange);border-color:var(--orange);box-shadow:0 0 7px var(--orange)}
+.ni.np.active .nd{background:var(--purple);border-color:var(--purple);box-shadow:0 0 7px var(--purple)}
+.nl{flex:1;transition:opacity 0.18s}
+.np2{font-size:0.53rem;color:var(--muted);font-family:var(--font-m);letter-spacing:1px;flex-shrink:0;transition:opacity 0.18s}
+.ni.active .np2{color:inherit;opacity:0.6}
+.sidebar.col .nl,.sidebar.col .np2{opacity:0;pointer-events:none}
+.sidebar.col .ni:hover::after{content:attr(data-tip);position:absolute;left:calc(var(--sbwc) + 8px);top:50%;transform:translateY(-50%);background:var(--s3);border:1px solid var(--b1);border-radius:6px;padding:5px 10px;font-size:0.66rem;color:var(--text);white-space:nowrap;z-index:100;font-family:var(--font-s);box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+.sb-sep{height:1px;background:var(--b1);margin:5px 11px}
+.sess-box{margin:0 8px 6px;background:var(--s2);border:1px solid var(--b1);border-radius:8px;padding:10px 12px;transition:opacity 0.18s}
+.sidebar.col .sess-box{opacity:0;pointer-events:none}
+.sl-lbl{font-size:0.51rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:var(--font-m);margin-bottom:5px}
+.sl-job{font-size:0.67rem;color:var(--text);line-height:1.35;word-break:break-all}
+.sl-co{font-size:0.58rem;color:var(--green);margin-top:2px}
+.sl-bar{display:flex;gap:3px;margin-top:8px}
+.sbs{flex:1;height:2px;border-radius:2px;background:var(--b1);transition:all 0.4s}
+.sbs.done{background:var(--green)}.sbs.act{background:var(--blue)}
+.pp-wrap{margin:8px 8px 0;padding-bottom:6px;transition:opacity 0.18s}
+.sidebar.col .pp-wrap{opacity:0;pointer-events:none}
+.pp-lbl{font-size:0.51rem;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;font-family:var(--font-m);margin-bottom:8px;padding:0 4px}
+.pp-s{display:flex;align-items:center;gap:8px;font-size:0.64rem;color:var(--muted);padding:4px 6px;border-radius:5px;transition:all 0.2s}
+.pp-s.done{color:var(--green)}.pp-s.act{color:var(--text);background:var(--s2)}
+.pp-ic{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:0.49rem;flex-shrink:0;font-family:var(--font-m);transition:all 0.2s}
+.pp-s.done .pp-ic{background:var(--green);border-color:var(--green);color:#000}
+.pp-s.act .pp-ic{border-color:var(--blue);color:var(--blue)}
+
+/* Start Fresh — pinned to bottom, always visible */
+.sb-fresh{flex-shrink:0;padding:8px;border-top:1px solid var(--b1);background:rgba(11,14,23,0.94);transition:opacity 0.18s}
+.sidebar.col .sb-fresh{opacity:0;pointer-events:none}
+.sb-fresh button{width:100%;background:none;border:1px solid var(--b1);border-radius:6px;color:var(--muted);font-size:0.56rem;letter-spacing:1.5px;text-transform:uppercase;font-family:var(--font-m);padding:7px 8px;cursor:pointer;transition:all 0.18s}
+.sb-fresh button:hover{border-color:rgba(248,113,113,0.4);color:var(--red);background:rgba(248,113,113,0.05)}

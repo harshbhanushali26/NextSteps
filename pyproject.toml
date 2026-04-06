@@ -1,0 +1,24 @@
+[project]
+name = "nextsteps"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "chromadb>=1.5.5",
+    "fastapi>=0.135.2",
+    "groq>=1.1.1",
+    "numpy>=2.4.3",
+    "pydantic>=2.12.5",
+    "pymupdf>=1.27.2.2",
+    "pymupdf4llm>=1.27.2.2",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.22",
+    "requests>=2.32.5",
+    "scikit-learn>=1.8.0",
+    "sentence-transformers>=5.3.0",
+    "tavily>=1.1.0",
+    "tavily-python>=0.7.23",
+    "uvicorn[standard]>=0.42.0",
+]
