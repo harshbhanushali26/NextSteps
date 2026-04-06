@@ -21,8 +21,10 @@ from typing import List, Dict, Any
 
 from models.schemas import JobDescription, SkillGapReport
 from rag.store import get_collection
-from rag.embedder import embedder      # for query embedding
 from utils.llm import get_groq_client, clean_json_response
+
+from rag.embedder import get_embedder
+embedder = get_embedder()
 
 logger = logging.getLogger(__name__)
 client = get_groq_client()

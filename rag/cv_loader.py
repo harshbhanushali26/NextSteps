@@ -20,9 +20,12 @@ Public API:
 import logging
 
 import numpy as np
-from rag.embedder import embedder
+
 from models.schemas import CandidateProfile
 from rag.store import add_skills, add_chunks, delete_session
+
+from rag.embedder import get_embedder
+embedder = get_embedder()
 
 logger = logging.getLogger(__name__)
 

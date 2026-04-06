@@ -101,4 +101,10 @@ class EmbeddingManager:
 
 
 # Module-level singleton — loaded once, reused across all agents
-embedder = EmbeddingManager()
+_embedder_instance = None
+
+def get_embedder() -> EmbeddingManager:
+    global _embedder_instance
+    if _embedder_instance is None:
+        _embedder_instance = EmbeddingManager()
+    return _embedder_instance

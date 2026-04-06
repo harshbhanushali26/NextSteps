@@ -19,12 +19,15 @@ Public API:
 
 import logging
 
-from rag.embedder import embedder
+
 from rag.store import query_skills
 from rag.store import query_skills, get_collection
 from models.schemas import SkillMatch, SkillGapReport, CandidateProfile, JobDescription
 from prompts.skill_matcher_prompt import SKILL_MATCHER_SYSTEM_PROMPT
 from utils.llm import get_groq_client, parse_json_response
+
+from rag.embedder import get_embedder
+embedder = get_embedder()
 
 logger = logging.getLogger(__name__)
 
