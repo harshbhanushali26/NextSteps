@@ -3,7 +3,9 @@
    Session state, API config, save/restore
 ═══════════════════════════════════════════════ */
 
-const API = 'http://127.0.0.1:8000';
+const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://127.0.0.1:8000'
+  : 'https://nextsteps-kmi2.onrender.com';
 
 const BLOCKED_DOMAINS = [
   'linkedin.com','indeed.com','naukri.com','glassdoor.com',
