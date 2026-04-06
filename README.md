@@ -12,7 +12,7 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-RAG-E8A430?style=flat-square)](https://trychroma.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22C55E?style=flat-square)](LICENSE)
 
-[**Live Demo →**](https://nextsteps.vercel.app) · [**API Docs →**](https://nextsteps.railway.app/docs) · [**Local Setup ↓**](#quick-start)
+[**Live Demo →**](https://nextsteps.vercel.app) · [**API Docs →**](https://nextsteps.render.app/docs) · [**Local Setup ↓**](#quick-start)
 
 </div>
 
@@ -100,7 +100,7 @@ Socratic skill tutor that teaches each gap skill through guided questions, not l
 | **Validation** | Pydantic v2 `extra='forbid'` | LLM hallucinations caught at the schema boundary |
 | **PDF Parsing** | pymupdf4llm | Markdown-preserving extraction; retains CV structure for better LLM accuracy |
 | **Frontend** | Vanilla HTML / CSS / JS | Zero build step; instant deploy; no framework overhead |
-| **Deployment** | Railway + Vercel | Free tier; GitHub-connected; auto-deploy on push |
+| **Deployment** | Render + Vercel | Free tier; GitHub-connected; auto-deploy on push |
 
 ---
 
@@ -231,14 +231,23 @@ NextSteps/
 
 ## Deployment
 
-**Backend → Railway**
+**Backend → Render**
 
-```
-# Procfile (repo root)
-web: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+**Build Command:**
+```bash
+pip install torch==2.6.0+cpu --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt
 ```
 
-Add `GROQ_API_KEY` and `TAVILY_API_KEY` as env vars in the Railway dashboard. Connect GitHub repo → auto-deploys on every push.
+**Start Command:**
+```bash
+uvicorn api.main:app --host 0.0.0.0 --port $PORT
+```
+
+Add `GROQ_API_KEY` and `TAVILY_API_KEY` as environment variables in the Render dashboard.
+
+> **Note:** Free tier has a cold start of ~30s after inactivity. First request after idle will be slow — subsequent requests are normal speed.
+
+---
 
 **Frontend → Vercel**
 
