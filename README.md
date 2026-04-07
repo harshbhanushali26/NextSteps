@@ -12,9 +12,11 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-RAG-E8A430?style=flat-square)](https://trychroma.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22C55E?style=flat-square)](LICENSE)
 
-[**Live Demo →**]("https://nextsteps-ai.vercel.app") · [**API Docs →**](https://nextsteps-kmi2.onrender.com/docs) · [**Local Setup ↓**](#quick-start)
+[**Live Demo →**](https://nextsteps-ai.vercel.app) · [**API Docs →**](https://nextsteps-kmi2.onrender.com/docs) · [**Local Setup ↓**](#quick-start)
 
 </div>
+
+> ⚠️ **Backend deployment is currently unavailable.** The frontend (landing page + dashboard UI) is fully live on Vercel — feel free to explore the UI. However, API calls (parse, match, apply, interview) will not process as the backend is being migrated. For a fully working demo, run it locally using the [Quick Start](#quick-start) guide below.
 
 ---
 
@@ -45,7 +47,43 @@ You get:      A tailored application package + interview readiness
               in under 2 minutes
 ```
 
-**It works because it understands context at every step.** Your CV isn't just text — it's parsed into a structured profile. The JD isn't just a page scrape — it's extracted into required vs. preferred skills. Every downstream step (resume, cover letter, interview questions) is grounded in the actual gap between *you* and *this role*.
+---
+
+## Architecture
+
+```
+  CV (PDF)          Job URL / Paste JD
+     │                      │
+     ▼                      ▼ Tavily Extract
+┌──────────────┐     ┌──────────────────┐     ┌────────────────────┐
+│  cv_parser   │     │   jd_scraper     │     │  company_research  │
+│  pymupdf4llm │     │  bs4 fallback    │     │  Tavily search     │
+└──────┬───────┘     └────────┬─────────┘     └─────────┬──────────┘
+       │ CandidateProfile     │ JobDescription           │ company_ctx
+       └──────────────────────┼──────────────────────────┘
+                              ▼
+                   ┌──────────────────┐
+                   │  skill_matcher   │ ◄── ChromaDB  (cv_skills_{job_id})
+                   │  cosine sim +    │     SentenceTransformers
+                   │  chunk-hit depth │     all-MiniLM-L6-v2
+                   └────────┬─────────┘
+                            │ SkillGapReport
+              ┌─────────────┼─────────────┐
+              ▼             ▼             ▼
+      resume_tailor    cover_letter    interviewer
+      Groq rewrites    Groq + SSE      RAG scoring ◄── ChromaDB (cv_chunks_{job_id})
+      JD-aligned       stream          3-axis eval
+      bullets          company-aware   Q&A state machine
+              │             │             │
+              └─────────────┼─────────────┘
+                            ▼
+                   FastAPI  (REST + SSE)
+                   Pydantic v2  extra='forbid'
+                   PII stripping  (pii.py)
+                            │
+                   Vanilla JS Frontend
+                   Vercel  (static)
+```
 
 ---
 
